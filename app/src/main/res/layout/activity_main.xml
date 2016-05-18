@@ -7,12 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="snru.thongmee.thanakorn.snrurun.MainActivity">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+    tools:context="snru.thongmee.thanakorn.snrurun.MainActivity"
+    android:background="@drawable/wall22">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -33,6 +29,38 @@
             android:layout_height="wrap_content"
             android:text="SIGN IN"
             android:id="@+id/button"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:onClick="clickSignIn" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:padding="30dp"
+        android:gravity="center_horizontal"
+        android:background="#ffffff">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView6" />
+
+        <EditText
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText4"
+            android:hint="User"
+            android:inputType="text"
+            android:textColor="@color/text" />
+
+        <EditText
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText5"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:textColor="@color/text" />
     </LinearLayout>
 </RelativeLayout>
