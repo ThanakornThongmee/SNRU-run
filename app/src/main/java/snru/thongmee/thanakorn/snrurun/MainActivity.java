@@ -1,6 +1,7 @@
 package snru.thongmee.thanakorn.snrurun;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imageView;
     private EditText userEditText, passwordEditText;
     private String userString, passwordString;
+    private String[] userStrings;
 
 
     @Override
@@ -64,18 +67,54 @@ public class MainActivity extends AppCompatActivity {
         passwordString = passwordEditText.getText().toString().trim();
 
         //check space
-        if (userString.equals("") || passwordString.equals(""){
+        if (userString.equals("") || passwordString.equals("")){
 
             MyAlert myAlert = new MyAlert();
             myAlert.myDialog(this, "มีช่องว่าง", "กรุณากรอกให้ครบทุกช่อง");
 
         } else {
 
-
+            checkUser();
 
         }
 
     }   // clickSignIn
+
+    private void checkUser() {
+
+        try {
+
+            SQLiteDatabase sqLiteDatabase = openOrCreateDatabase(MyOpenHelper.database_name,
+                    MODE_PRIVATE, null);
+            Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM userTABLE WHERE User = " + "'" + userString +  "'", null);
+            cursor.moveToFirst();
+            userStrings = new String[cursor.getColumnCount()];
+
+            for (int i=0;i<cursor.getColumnCount();i++) {
+                userStrings[i] = cursor.getString(i);
+            }
+
+            //check password
+            if (passwordString.equals(userStrings[3])) {
+                Toast.makeText(this, "ยินดีต้อนรับ" + userStrings[1], Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+                intent.putExtra("User", userString);
+                startActivity(intent);
+                finish();
+            } else {
+                MyAlert myAlert = new MyAlert();
+                myAlert.myDialog(this, "Password false", "Please Try Again Password false");
+            }
+
+
+        } catch (Exception e) {
+            MyAlert myAlert = new MyAlert();
+            myAlert.myDialog(this, "ไม่มี USER นี้", "ไม่มี"+userString+"ในฐานข้อมูลของเรา");
+
+        }
+
+    }   //chechUser
 
 
     //Creat Inner Class
